@@ -1,4 +1,4 @@
-import React, {PropsWithChildren, ReactNode, useEffect, useState} from "react";
+import React, {PropsWithChildren, ReactNode} from "react";
 import {Category} from "../data";
 import {Link} from "react-router-dom";
 
