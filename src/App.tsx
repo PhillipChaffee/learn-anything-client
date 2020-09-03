@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -8,8 +8,17 @@ import {
 import './App.css';
 import About from './pages/About';
 import Home from './pages/Home';
+import CategoryPage from "./pages/Category";
+import {data} from "./data";
 
 function App() {
+    const [categories, setCategories] = useState(data);
+
+    useEffect(() => {
+        const sortedCategories = categories.sort();
+        setCategories(sortedCategories);
+    }, [categories]);
+
     return (
         <Router>
             <div className="container">
@@ -26,10 +35,11 @@ function App() {
                 </div>
                 <Switch>
                     <Route path="/about">
-                        <About />
+                        <About/>
                     </Route>
+                    <Route path="/:categoryName" children={<CategoryPage categories={categories}/>}/>
                     <Route path="/">
-                        <Home />
+                        <Home categories={categories}/>
                     </Route>
                 </Switch>
             </div>
