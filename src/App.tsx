@@ -6,7 +6,6 @@ import {
     Link
 } from "react-router-dom";
 import './App.css';
-import About from './pages/About';
 import Home from './pages/Home';
 import CategoryPage from "./pages/Category";
 import {data} from "./data";
@@ -26,17 +25,8 @@ function App() {
                     <div className="col-lg-12 text-center">
                         <h1 className="mt-5">Learn Anything Cafe</h1>
                     </div>
-                    <div className="col-lg-12">
-                        <nav className="nav justify-content-center">
-                            <Link to="/" className='nav-link'>Home</Link>
-                            <Link to="/about" className='nav-link'>About</Link>
-                        </nav>
-                    </div>
                 </div>
                 <Switch>
-                    <Route path="/about">
-                        <About/>
-                    </Route>
                     <Route path="/:categoryName" children={<CategoryPage categories={categories}/>}/>
                     <Route path="/">
                         <Home categories={categories}/>
