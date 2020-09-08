@@ -37,7 +37,7 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
 
     const subcategoryListItems = category.subcategories.sort(sortSubcategories).map(s => {
         return <li>
-            <Link to={'/' + encodeURIComponent(s.name)}>
+            <Link className='text-reset' to={'/' + encodeURIComponent(s.name)}>
                 {s.name}
             </Link>
         </li>
@@ -45,7 +45,7 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
 
     const resourceListItems = category.resources.sort().map(r => {
         return <li>
-            <a href={r.link}>
+            <a className='text-reset' href={r.link}>
                 {r.name}
             </a>
         </li>
