@@ -1,6 +1,7 @@
-import React, {PropsWithChildren} from "react";
-import {Category} from "../data";
-import {Link, useParams} from "react-router-dom";
+import React, {PropsWithChildren, useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import {Category} from "../models/category";
+import {Resource} from "../models/resource";
 
 interface CategoryProps extends PropsWithChildren<any> {
     categories: Category[];
@@ -9,9 +10,17 @@ interface CategoryProps extends PropsWithChildren<any> {
 const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
     let {categoryName} = useParams();
     categoryName = decodeURIComponent(categoryName);
-    console.log(categoryName)
-
     let category = props.categories.find(c => c.name === categoryName);
+    let [resources, setResources] = useState(new Array<Resource>());
+
+    useEffect(() => {
+        if (category) {
+            fetch(`http://localhost:3030/resources?categoryId=${category.id}`)
+                .then(response => response.json())
+                .then(data => setResources(data));
+        }
+    }, [category]);
+
     if (category === undefined) {
         return (
             <div className="row">
@@ -22,29 +31,8 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
         )
     }
 
-    const sortSubcategories = (a: Category, b: Category): number => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-        if (nameA < nameB) {
-            return -1;
-        }
-        if (nameA > nameB) {
-            return 1;
-        }
-
-        return 0;
-    }
-
-    const subcategoryListItems = category.subcategories.sort(sortSubcategories).map(s => {
-        return <li>
-            <Link className='text-reset' to={'/' + encodeURIComponent(s.name)}>
-                {s.name}
-            </Link>
-        </li>
-    })
-
-    const resourceListItems = category.resources.sort().map(r => {
-        return <li>
+    const resourceListItems = resources.sort().map(r => {
+        return <li key={r.name}>
             <a className='text-reset' href={r.link}>
                 {r.name}
             </a>
@@ -56,14 +44,6 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
             <div className="row mt-2 mb-4">
                 <div className="col-lg-12 text-center">
                     <h3>{category.name}</h3>
-                </div>
-            </div>
-            <div className="row mt-2">
-                <div className="col-lg-6 offset-3">
-                    <h5>Sub-categories</h5>
-                    <ul>
-                        {subcategoryListItems}
-                    </ul>
                 </div>
             </div>
             <div className="row mt-2">

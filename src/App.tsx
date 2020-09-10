@@ -8,10 +8,15 @@ import {
 import './App.css';
 import Home from './pages/Home';
 import CategoryPage from "./pages/Category";
-import {data} from "./data";
 
 function App() {
-    const [categories, setCategories] = useState(data);
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:3030/categories')
+            .then(response => response.json())
+            .then(data => setCategories(data));
+    }, []);
 
     useEffect(() => {
         const sortedCategories = categories.sort();

@@ -1,6 +1,6 @@
 import React, {PropsWithChildren, ReactNode, useEffect, useState} from "react";
-import {Category} from "../data";
 import {Link} from "react-router-dom";
+import {Category} from "../models/category";
 
 interface HomeProps extends PropsWithChildren<any> {
     categories: Category[];
@@ -20,7 +20,7 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
 
     const categoryListItems: ReactNode[] =
         displayCategories.map(c => {
-            return <li>
+            return <li key={c.name}>
                 <Link className='text-reset' to={'/' + encodeURIComponent(c.name)}>
                     {c.name}
                 </Link>
