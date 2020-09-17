@@ -2,6 +2,7 @@ import React, {PropsWithChildren, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {Category} from "../models/category";
 import {Resource} from "../models/resource";
+import {base_url} from "../App"
 
 interface CategoryProps extends PropsWithChildren<any> {
     categories: Category[];
@@ -15,7 +16,7 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
 
     useEffect(() => {
         if (category) {
-            fetch(`http://localhost:3030/resources?categoryId=${category.id}`)
+            fetch(`${base_url}/resources?categoryId=${category.id}`)
                 .then(response => response.json())
                 .then(data => setResources(data));
         }

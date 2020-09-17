@@ -9,11 +9,18 @@ import './App.css';
 import Home from './pages/Home';
 import CategoryPage from "./pages/Category";
 
+export let base_url = '';
+if(process.env.NODE_ENV === 'development') {
+    base_url = 'http://localhost:8080'
+}else if(process.env.NODE_ENV === 'production') {
+    base_url = 'https://api.learnanything.cafe'
+}
+
 function App() {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3030/categories')
+        fetch(base_url + '/categories')
             .then(response => response.json())
             .then(data => setCategories(data));
     }, []);
