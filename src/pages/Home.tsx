@@ -4,10 +4,11 @@ import {Category} from "../models/category";
 
 interface HomeProps extends PropsWithChildren<any> {
     categories: Category[];
+    loading: boolean;
 }
 
 const Home: React.FC<HomeProps> = (props: HomeProps) => {
-    const {categories} = props;
+    const {categories, loading} = props;
 
     const [searchTerm, setSearchTerm] = useState('');
     const [displayCategories, setDisplayCategories] = useState(categories);
@@ -50,11 +51,22 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
                     </form>
                 </div>
             </div>
-            <div className="row justify-content-center">
-                <div className="col-lg-10 justify-content-center">
-                        {categoryListItems}
+
+            {loading &&
+            <div className="col-lg-12 text-center">
+                <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
                 </div>
             </div>
+            }
+
+            {!loading &&
+            <div className="row justify-content-center">
+                <div className="col-lg-10 justify-content-center">
+                    {categoryListItems}
+                </div>
+            </div>
+            }
         </>
     )
 }

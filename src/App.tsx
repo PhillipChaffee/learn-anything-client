@@ -32,7 +32,7 @@ function App() {
         fetch(base_url + '/categories')
             .then(response => response.json())
             .then(data => setCategories(data))
-            .then(() => setLoadingCategories(false));
+            .then(() => setTimeout(() => setLoadingCategories(false), 200));
     }, []);
 
     const closeModal = () => {
@@ -57,7 +57,7 @@ function App() {
                 <Switch>
                     <Route path="/:categoryName" children={<CategoryPage categories={categories}/>}/>
                     <Route path="/">
-                        <Home categories={categories}/>
+                        <Home categories={categories} loading={loadingCategories}/>
                     </Route>
                 </Switch>
                 <AddResourceModal categories={categories} modalIsOpen={modalIsOpen} closeModal={closeModal} loadingCategories={loadingCategories}/>

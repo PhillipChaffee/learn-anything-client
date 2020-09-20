@@ -12,13 +12,16 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
     let {categoryName} = useParams();
     categoryName = decodeURIComponent(categoryName);
     let category = props.categories.find(c => c.name === categoryName);
-    let [resources, setResources] = useState(new Array<Resource>());
+
+    const [resources, setResources] = useState(new Array<Resource>());
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (category) {
             fetch(`${base_url}/resources?categoryId=${category.id}`)
                 .then(response => response.json())
-                .then(data => setResources(data));
+                .then(data => setResources(data))
+                .then(() => setTimeout(() => setLoading(false), 200));
         }
     }, [category]);
 
@@ -58,11 +61,22 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
                     <h3>{category.name} Resources</h3>
                 </div>
             </div>
+
+            {loading &&
+            <div className="col-lg-12 text-center">
+                <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+            </div>
+            }
+
+            {!loading &&
             <div className="row justify-content-center mt-2">
                 <div className="col-lg-10">
                     {resourceListItems}
                 </div>
             </div>
+            }
         </>
     )
 }
