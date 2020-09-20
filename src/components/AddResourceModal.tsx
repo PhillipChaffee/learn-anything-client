@@ -1,8 +1,8 @@
 import React, {PropsWithChildren, useState} from "react";
-import ReactModal, {Styles} from 'react-modal';
+import ReactModal from 'react-modal';
 import CreatableSelect from "react-select/creatable";
 import {Category} from "../models/category";
-import {OptionsType, ValueType} from "react-select";
+import {OptionsType} from "react-select";
 import {base_url} from "../App";
 
 interface AddResourceModalProps extends PropsWithChildren<any> {
@@ -67,7 +67,7 @@ const AddResourceModal: React.FC<AddResourceModalProps> = (props) => {
 
         let categoriesForResource: Category[] = [];
         for (const resourceCategory of resourceCategories) {
-            let category = categories.find(c => c.name == resourceCategory.label);
+            let category = categories.find(c => c.name === resourceCategory.label);
 
             if (category === undefined) {
                 let response = await fetch(base_url + '/categories', {
