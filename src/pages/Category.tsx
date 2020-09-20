@@ -1,5 +1,5 @@
 import React, {PropsWithChildren, useEffect, useState} from "react";
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {Category} from "../models/category";
 import {Resource} from "../models/resource";
 import {base_url} from "../App"
