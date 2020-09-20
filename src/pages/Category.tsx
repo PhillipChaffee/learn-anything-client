@@ -39,7 +39,7 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
         .sort((a, b) => a.name.localeCompare(b.name, 'en', {ignorePunctuation: true}))
         .map(r => {
             return (
-                <a className='text-reset' href={r.link}>
+                <a className='text-reset' href={r.link} key={r.name}>
                     <div className="card mb-2">
                         <div className="card-body">
                             <div className="row justify-content-between">

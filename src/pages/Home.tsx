@@ -23,7 +23,7 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
         displayCategories
             .sort((a, b) => a.name.localeCompare(b.name, 'en', {ignorePunctuation: true}))
             .map(c => {
-                return <Link className='text-reset' to={'/' + encodeURIComponent(c.name)}>
+                return <Link className='text-reset' to={'/' + encodeURIComponent(c.name)}  key={c.name}>
                     <div className="card mb-2">
                         <div className="card-body">
                             <div className="row justify-content-between">
