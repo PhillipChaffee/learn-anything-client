@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import CategoryPage from "./pages/Category";
 import AddResourceModal from "./components/AddResourceModal";
 import ReactModal from "react-modal";
+import {Category} from "./models/category";
 
 export let base_url = '';
 if (process.env.NODE_ENV === 'development') {
@@ -21,7 +22,7 @@ if (process.env.NODE_ENV === 'development') {
 ReactModal.setAppElement('#root');
 
 function App() {
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState([] as Category[]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [loadingCategories, setLoadingCategories] = useState(true);
 
@@ -33,11 +34,6 @@ function App() {
             .then(data => setCategories(data))
             .then(() => setLoadingCategories(false));
     }, []);
-
-    useEffect(() => {
-        const sortedCategories = categories.sort();
-        setCategories(sortedCategories);
-    }, [categories]);
 
     const closeModal = () => {
         setModalIsOpen(false);

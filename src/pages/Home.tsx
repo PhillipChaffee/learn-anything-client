@@ -19,13 +19,15 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
     }, [categories, searchTerm])
 
     const categoryListItems: ReactNode[] =
-        displayCategories.map(c => {
-            return <li key={c.name}>
-                <Link className='text-reset' to={'/' + encodeURIComponent(c.name)}>
-                    {c.name}
-                </Link>
-            </li>
-        });
+        displayCategories
+            .sort((a, b) => a.name.localeCompare(b.name, 'en', {ignorePunctuation: true}))
+            .map(c => {
+                return <li key={c.name}>
+                    <Link className='text-reset' to={'/' + encodeURIComponent(c.name)}>
+                        {c.name}
+                    </Link>
+                </li>
+            });
 
     return (
         <>
