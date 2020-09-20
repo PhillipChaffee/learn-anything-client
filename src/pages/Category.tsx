@@ -35,24 +35,26 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
         )
     }
 
-    const resourceListItems = resources.sort().map(r => {
-        return (
-            <a className='text-reset' href={r.link}>
-                <div className="card mb-2">
-                    <div className="card-body">
-                        <div className="row justify-content-between">
-                            <div className="col-6">
-                                {r.name}
-                            </div>
-                            <div className="col-6 text-right">
-                                {r.link}
+    const resourceListItems = resources
+        .sort((a, b) => a.name.localeCompare(b.name, 'en', {ignorePunctuation: true}))
+        .map(r => {
+            return (
+                <a className='text-reset' href={r.link}>
+                    <div className="card mb-2">
+                        <div className="card-body">
+                            <div className="row justify-content-between">
+                                <div className="col-6">
+                                    {r.name}
+                                </div>
+                                <div className="col-6 text-right">
+                                    {r.link}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </a>
-        )
-    })
+                </a>
+            )
+        })
 
     return (
         <>
