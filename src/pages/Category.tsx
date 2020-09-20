@@ -1,5 +1,5 @@
 import React, {PropsWithChildren, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {Category} from "../models/category";
 import {Resource} from "../models/resource";
 import {base_url} from "../App"
@@ -33,26 +33,34 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
     }
 
     const resourceListItems = resources.sort().map(r => {
-        return <li key={r.name}>
+        return (
             <a className='text-reset' href={r.link}>
-                {r.name}
+                <div className="card mb-2">
+                    <div className="card-body">
+                        <div className="row justify-content-between">
+                            <div className="col-6">
+                                {r.name}
+                            </div>
+                            <div className="col-6 text-right">
+                                {r.link}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </a>
-        </li>
+        )
     })
 
     return (
         <>
             <div className="row mt-2 mb-4">
                 <div className="col-lg-12 text-center">
-                    <h3>{category.name}</h3>
+                    <h3>{category.name} Resources</h3>
                 </div>
             </div>
-            <div className="row mt-2">
-                <div className="col-lg-6 offset-3">
-                    <h5>Resources</h5>
-                    <ul>
-                        {resourceListItems}
-                    </ul>
+            <div className="row justify-content-center mt-2">
+                <div className="col-lg-10">
+                    {resourceListItems}
                 </div>
             </div>
         </>

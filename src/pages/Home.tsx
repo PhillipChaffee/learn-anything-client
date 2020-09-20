@@ -26,10 +26,10 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
                     <div className="card mb-2">
                         <div className="card-body">
                             <div className="row justify-content-between">
-                                <div className="col-3">
+                                <div className="col-6">
                                     {c.name}
                                 </div>
-                                <div className="col-3 text-right">
+                                <div className="col-6 text-right">
                                     Resources: {c.resourceCount}
                                 </div>
                             </div>
@@ -52,9 +52,7 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
             </div>
             <div className="row justify-content-center">
                 <div className="col-lg-10 justify-content-center">
-                    <ul>
                         {categoryListItems}
-                    </ul>
                 </div>
             </div>
         </>
