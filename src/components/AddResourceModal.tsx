@@ -7,14 +7,15 @@ import {base_url} from "../App";
 
 interface AddResourceModalProps extends PropsWithChildren<any> {
     modalIsOpen: boolean;
-    closeModal: (event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent) => void;
+    closeModal: (event: React.MouseEvent | React.KeyboardEvent) => void;
     categories: Category[];
+    loadingCategories: boolean;
 }
 
 type CategoryOption = { label: string, value: string };
 
 const AddResourceModal: React.FC<AddResourceModalProps> = (props) => {
-    const {modalIsOpen, closeModal, categories} = props;
+    const {modalIsOpen, closeModal, categories, loadingCategories} = props;
 
     const [resourceCategories, setResourceCategories] = useState([] as OptionsType<CategoryOption>);
     const [resourceCategoriesValidationMessage, setResourceCategoriesValidationMessage] = useState('');
@@ -96,6 +97,10 @@ const AddResourceModal: React.FC<AddResourceModalProps> = (props) => {
                 categoryIds: categoriesForResource.map(c => c.id)
             })
         })
+            .then(() => {
+                closeModal({} as React.MouseEvent);
+                setSubmittingResource(false);
+            })
     }
 
     return (
@@ -146,7 +151,7 @@ const AddResourceModal: React.FC<AddResourceModalProps> = (props) => {
                     <CreatableSelect
                         id='categorySelect'
                         isMulti
-                        isLoading={categories.length === 0}
+                        isLoading={loadingCategories}
                         options={options}
                         onChange={value => {
                             setResourceCategories(value as OptionsType<CategoryOption>);
@@ -159,7 +164,7 @@ const AddResourceModal: React.FC<AddResourceModalProps> = (props) => {
                             })
                         } : {}}
                     />
-                    <small id="categorySelectHelp" className="form-text text-muted">Type to create a new
+                    <small id="categorySelectHelp" className="form-text text-muted">Type to search or create a new
                         category.</small>
                     {resourceCategoriesValidationMessage &&
                     <div className="invalid-feedback d-block">

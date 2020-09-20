@@ -23,11 +23,15 @@ ReactModal.setAppElement('#root');
 function App() {
     const [categories, setCategories] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [loadingCategories, setLoadingCategories] = useState(true);
 
     useEffect(() => {
+        setLoadingCategories(true);
+
         fetch(base_url + '/categories')
             .then(response => response.json())
-            .then(data => setCategories(data));
+            .then(data => setCategories(data))
+            .then(() => setLoadingCategories(false));
     }, []);
 
     useEffect(() => {
@@ -60,7 +64,7 @@ function App() {
                         <Home categories={categories}/>
                     </Route>
                 </Switch>
-                <AddResourceModal categories={categories} modalIsOpen={modalIsOpen} closeModal={closeModal}/>
+                <AddResourceModal categories={categories} modalIsOpen={modalIsOpen} closeModal={closeModal} loadingCategories={loadingCategories}/>
             </div>
         </Router>
     );
