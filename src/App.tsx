@@ -8,21 +8,30 @@ import {
 import './App.css';
 import Home from './pages/Home';
 import CategoryPage from "./pages/Category";
+import AddResourceModal from "./components/AddResourceModal";
+import ReactModal from "react-modal";
 
 export let base_url = '';
-if(process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development') {
     base_url = 'http://localhost:8080'
-}else if(process.env.NODE_ENV === 'production') {
+} else if (process.env.NODE_ENV === 'production') {
     base_url = 'https://api.learnanything.cafe'
 }
 
+ReactModal.setAppElement('#root');
+
 function App() {
     const [categories, setCategories] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [loadingCategories, setLoadingCategories] = useState(true);
 
     useEffect(() => {
+        setLoadingCategories(true);
+
         fetch(base_url + '/categories')
             .then(response => response.json())
-            .then(data => setCategories(data));
+            .then(data => setCategories(data))
+            .then(() => setLoadingCategories(false));
     }, []);
 
     useEffect(() => {
@@ -30,9 +39,14 @@ function App() {
         setCategories(sortedCategories);
     }, [categories]);
 
+    const closeModal = () => {
+        setModalIsOpen(false);
+    }
+
     return (
         <Router>
             <div className="container">
+                <button type="button" className="btn btn-dark add" onClick={() => setModalIsOpen(true)}>Add Resource</button>
                 <div className="row pb-3">
                     <div className="col-lg-12 text-center">
                         <Link className='text-reset text-decoration-none' to='/'>
@@ -50,6 +64,7 @@ function App() {
                         <Home categories={categories}/>
                     </Route>
                 </Switch>
+                <AddResourceModal categories={categories} modalIsOpen={modalIsOpen} closeModal={closeModal} loadingCategories={loadingCategories}/>
             </div>
         </Router>
     );

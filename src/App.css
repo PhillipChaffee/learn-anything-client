@@ -1,2 +1,60 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import "../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+
+.Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(80, 80, 80, .75);
+}
+
+button.closeModal {
+    cursor: pointer;
+    padding: 1rem;
+    margin: -1rem -1rem -1rem auto;
+    background-color: transparent;
+    border: 0;
+    position: fixed;
+    top: 8px;
+    right: 19px;
+    opacity: .5;
+    outline: none;
+}
+
+span.closeModal {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.invalid {
+    border: 1px solid #dc3545;
+}
+
+@media (min-device-width: 1200px) {
+    button.add {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .Modal {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        right: auto;
+        bottom: auto;
+        margin-right: -50%;
+        transform: translate(-50%, -50%);
+        overflow: visible;
+        border: 1px solid rgb(204, 204, 204);
+        background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+        border-radius: 4px;
+        outline: currentcolor none medium;
+        padding: 20px;
+        min-width: 500px;
+    }
+}
