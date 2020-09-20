@@ -35,24 +35,50 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
         )
     }
 
+    const openLink = (link: string) => {
+        window.open(link);
+    }
+
+    const vote = (e: React.MouseEvent<HTMLElement, MouseEvent>, resource: Resource, addToScore: number) => {
+        e.stopPropagation();
+
+        if (addToScore === 0) {
+            return;
+        }
+
+        resource.score += addToScore;
+
+        fetch(base_url + '/resources', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(resource)
+        });
+    }
+
     const resourceListItems = resources
         .sort((a, b) => a.name.localeCompare(b.name, 'en', {ignorePunctuation: true}))
         .map(r => {
             return (
-                <a className='text-reset' href={r.link} key={r.name}>
-                    <div className="card mb-2">
-                        <div className="card-body">
-                            <div className="row justify-content-between">
-                                <div className="col-6">
-                                    {r.name}
-                                </div>
-                                <div className="col-6 text-right">
-                                    {r.link}
-                                </div>
+                <div className="card mb-2 resource text-reset" onClick={() => openLink(r.link)} key={r.name}>
+                    <div className="card-body text-decoration-none">
+                        <div className="row justify-content-between">
+                            <div className="col-5">
+                                {r.name}
+                            </div>
+                            <div className="col-5 text-center">
+                                {r.link}
+                            </div>
+                            <div className="col-2 text-right">
+                                <i className="fas fa-angle-up mr-1 vote" onClick={e => vote(e, r, 1)}/>
+                                {r.score}
+                                <i className="fas fa-angle-down ml-1 vote" onClick={e => vote(e, r, -1)}/>
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
             )
         })
 

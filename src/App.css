@@ -34,7 +34,34 @@ span.closeModal {
     border: 1px solid #dc3545;
 }
 
+.vote:hover {
+    background-color: rgba(26, 26, 27, 0.1);
+}
+
+.resource {
+    cursor: pointer;
+}
+
+.resource:hover {
+    border-color: black;
+}
+
+.category {
+    cursor: pointer;
+}
+
+.category:hover {
+    border-color: black;
+}
+
 @media (min-device-width: 1200px) {
+    .vote {
+        height: 20px;
+        width: 20px;
+        text-align: center;
+        border-radius: 2px;
+    }
+
     button.add {
         position: absolute;
         top: 10px;
