@@ -22,11 +22,20 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
         displayCategories
             .sort((a, b) => a.name.localeCompare(b.name, 'en', {ignorePunctuation: true}))
             .map(c => {
-                return <li key={c.name}>
-                    <Link className='text-reset' to={'/' + encodeURIComponent(c.name)}>
-                        {c.name}
-                    </Link>
-                </li>
+                return <Link className='text-reset' to={'/' + encodeURIComponent(c.name)}>
+                    <div className="card mb-2">
+                        <div className="card-body">
+                            <div className="row justify-content-between">
+                                <div className="col-3">
+                                    {c.name}
+                                </div>
+                                <div className="col-3 text-right">
+                                    Resources: {c.resourceCount}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Link>
             });
 
     return (
@@ -42,7 +51,7 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
                 </div>
             </div>
             <div className="row justify-content-center">
-                <div className="col-lg-4 justify-content-center">
+                <div className="col-lg-10 justify-content-center">
                     <ul>
                         {categoryListItems}
                     </ul>
