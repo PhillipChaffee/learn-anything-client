@@ -65,10 +65,10 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
                 <div className="card mb-2 resource text-reset" onClick={() => openLink(r.link)} key={r.name}>
                     <div className="card-body text-decoration-none">
                         <div className="row justify-content-between">
-                            <div className="col-5">
+                            <div className="col-4">
                                 {r.name}
                             </div>
-                            <div className="col-5 text-center">
+                            <div className="col-6 text-center">
                                 {r.link}
                             </div>
                             <div className="col-2 text-right">
