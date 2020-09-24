@@ -11,6 +11,9 @@ import CategoryPage from "./pages/Category";
 import AddResourceModal from "./components/AddResourceModal";
 import ReactModal from "react-modal";
 import {Category} from "./models/category";
+import {useAuth0} from "@auth0/auth0-react";
+import LoginButton from "./components/LoginButton";
+import LogoutButton from "./components/LogoutButton";
 
 export let base_url = '';
 if (process.env.NODE_ENV === 'development') {
@@ -22,6 +25,8 @@ if (process.env.NODE_ENV === 'development') {
 ReactModal.setAppElement('#root');
 
 function App() {
+    const {isLoading, isAuthenticated} = useAuth0();
+
     const [categories, setCategories] = useState([] as Category[]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [loadingCategories, setLoadingCategories] = useState(true);
@@ -39,10 +44,23 @@ function App() {
         setModalIsOpen(false);
     }
 
+    if (isLoading) {
+        return <div>Loading ...</div>;
+    }
+
     return (
         <Router>
             <div className="container">
-                <button type="button" className="btn btn-dark add" onClick={() => setModalIsOpen(true)}>Add Resource</button>
+                {isAuthenticated ?
+                    <>
+                        <button type="button" className="btn btn-dark add" onClick={() => setModalIsOpen(true)}>Add
+                            Resource
+                        </button>
+                        <LogoutButton/>
+                    </>
+                    :
+                    <LoginButton/>
+                }
                 <div className="row pb-3">
                     <div className="col-lg-12 text-center">
                         <Link className='text-reset text-decoration-none' to='/'>
@@ -60,7 +78,8 @@ function App() {
                         <Home categories={categories} loading={loadingCategories}/>
                     </Route>
                 </Switch>
-                <AddResourceModal categories={categories} modalIsOpen={modalIsOpen} closeModal={closeModal} loadingCategories={loadingCategories}/>
+                <AddResourceModal categories={categories} modalIsOpen={modalIsOpen} closeModal={closeModal}
+                                  loadingCategories={loadingCategories}/>
             </div>
         </Router>
     );
