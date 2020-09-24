@@ -5,7 +5,7 @@ const LogoutButton: React.FC = () => {
     const { logout } = useAuth0();
 
     return (
-        <button className='btn btn-dark add' onClick={() => logout({ returnTo: window.location.origin })}>
+        <button className='btn btn-dark login' onClick={() => logout({ returnTo: window.location.origin })}>
             Log Out
         </button>
     );
