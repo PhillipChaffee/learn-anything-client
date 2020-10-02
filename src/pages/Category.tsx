@@ -59,7 +59,7 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
     }
 
     const resourceListItems = resources
-        .sort((a, b) => a.name.localeCompare(b.name, 'en', {ignorePunctuation: true}))
+        .sort((a, b) => a.score - b.score)
         .map(r => {
             return (
                 <div className="card mb-2 resource text-reset" onClick={() => openLink(r.link)} key={r.name}>
