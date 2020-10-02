@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import {Category} from "../models/category";
 import {Resource} from "../models/resource";
 import {base_url} from "../App"
+import {useAuth0} from "@auth0/auth0-react";
 
 interface CategoryProps extends PropsWithChildren<any> {
     categories: Category[];
@@ -15,6 +16,8 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
 
     const [resources, setResources] = useState(new Array<Resource>());
     const [loading, setLoading] = useState(true);
+
+    const {isAuthenticated} = useAuth0();
 
     useEffect(() => {
         if (category) {
@@ -42,11 +45,16 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
     const vote = (e: React.MouseEvent<HTMLElement, MouseEvent>, resource: Resource, addToScore: number) => {
         e.stopPropagation();
 
-        if (addToScore === 0) {
+        if (addToScore === 0 || !isAuthenticated) {
             return;
         }
 
-        resource.score += addToScore;
+        let resourcesCopy = [...resources];
+        let resourceToEdit = resourcesCopy.find(r => r.id === resource.id);
+        if(resourceToEdit) {
+            resourceToEdit.score += addToScore;
+            setResources(resourcesCopy);
+        }
 
         fetch(base_url + '/resources', {
             method: 'POST',
@@ -59,7 +67,7 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
     }
 
     const resourceListItems = resources
-        .sort((a, b) => a.score - b.score)
+        .sort((a, b) => b.score - a.score)
         .map(r => {
             return (
                 <div className="card mb-2 resource text-reset" onClick={() => openLink(r.link)} key={r.name}>
@@ -72,9 +80,9 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
                                 {r.link}
                             </div>
                             <div className="col-2 text-right">
-                                <i className="fas fa-angle-up mr-1 vote" onClick={e => vote(e, r, 1)}/>
+                                <i className="fas fa-angle-up mr-1 vote" onClick={e => vote(e, r, 1)} style={isAuthenticated ? {} : {color: "gray", cursor: "default", backgroundColor: "white"}}/>
                                 {r.score}
-                                <i className="fas fa-angle-down ml-1 vote" onClick={e => vote(e, r, -1)}/>
+                                <i className="fas fa-angle-down ml-1 vote" onClick={e => vote(e, r, -1)} style={isAuthenticated ? {} : {color: "gray", cursor: "default", backgroundColor: "white"}}/>
                             </div>
                         </div>
                     </div>
@@ -92,17 +100,17 @@ const CategoryPage: React.FC<CategoryProps> = (props: CategoryProps) => {
 
             {loading &&
             <div className="col-lg-12 text-center">
-                <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
-                </div>
+              <div className="spinner-border" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
             </div>
             }
 
             {!loading &&
             <div className="row justify-content-center mt-2">
-                <div className="col-lg-10">
-                    {resourceListItems}
-                </div>
+              <div className="col-lg-10">
+                  {resourceListItems}
+              </div>
             </div>
             }
         </>
