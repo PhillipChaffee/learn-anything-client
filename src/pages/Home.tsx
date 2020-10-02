@@ -23,7 +23,8 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
         displayCategories
             .sort((a, b) => a.name.localeCompare(b.name, 'en', {ignorePunctuation: true}))
             .map(c => {
-                return <Link className='text-reset text-decoration-none' to={'/' + encodeURIComponent(c.name)}  key={c.name}>
+                return <Link className='text-reset text-decoration-none' to={'/' + encodeURIComponent(c.name)}
+                             key={c.name}>
                     <div className="card mb-2 category">
                         <div className="card-body">
                             <div className="row justify-content-between">
@@ -53,18 +54,20 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
             </div>
 
             {loading &&
-            <div className="col-lg-12 text-center">
+            <div className="row justify-content-center mb-5">
+              <div className="col-lg-12 text-center">
                 <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
+                  <span className="sr-only">Loading...</span>
                 </div>
+              </div>
             </div>
             }
 
             {!loading &&
-            <div className="row justify-content-center">
-                <div className="col-lg-10 justify-content-center">
-                    {categoryListItems}
-                </div>
+            <div className="row justify-content-center mb-5">
+              <div className="col-lg-10 justify-content-center">
+                  {categoryListItems}
+              </div>
             </div>
             }
         </>
