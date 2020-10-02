@@ -44,6 +44,12 @@ function App() {
         setModalIsOpen(false);
     }
 
+    const addCategory = (category: Category): void => {
+        let categoriesCopy = [...categories];
+        categoriesCopy.push(category);
+        setCategories(categoriesCopy);
+    }
+
     if (isLoading) {
         return <div>Loading ...</div>;
     }
@@ -79,7 +85,7 @@ function App() {
                     </Route>
                 </Switch>
                 <AddResourceModal categories={categories} modalIsOpen={modalIsOpen} closeModal={closeModal}
-                                  loadingCategories={loadingCategories}/>
+                                  loadingCategories={loadingCategories} addCategory={addCategory}/>
             </div>
         </Router>
     );

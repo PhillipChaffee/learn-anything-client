@@ -10,6 +10,7 @@ interface AddResourceModalProps extends PropsWithChildren<any> {
     closeModal: (event: React.MouseEvent | React.KeyboardEvent) => void;
     categories: Category[];
     loadingCategories: boolean;
+    addCategory: (category: Category) => void;
 }
 
 type CategoryOption = { label: string, value: string };
@@ -36,7 +37,6 @@ const AddResourceModal: React.FC<AddResourceModalProps> = (props) => {
         let valid = true;
 
         if (submit && (!resourceCategories || resourceCategories.length === 0)) {
-            console.log(resourceCategories)
             setResourceCategoriesValidationMessage('Please add at least one category.');
             valid = false;
         } else {
@@ -80,6 +80,10 @@ const AddResourceModal: React.FC<AddResourceModalProps> = (props) => {
                 });
 
                 category = await response.json() as Category;
+                category.resourceCount = 1;
+                props.addCategory(category);
+            } else {
+                category.resourceCount += 1;
             }
 
             categoriesForResource.push(category);
@@ -94,7 +98,8 @@ const AddResourceModal: React.FC<AddResourceModalProps> = (props) => {
             body: JSON.stringify({
                 name: resourceName,
                 link: resourceLink,
-                categoryIds: categoriesForResource.map(c => c.id)
+                categoryIds: categoriesForResource.map(c => c.id),
+                score: 0
             })
         })
             .then(() => {
@@ -175,8 +180,8 @@ const AddResourceModal: React.FC<AddResourceModalProps> = (props) => {
                     {!submittingResource && 'Submit'}
                     {submittingResource &&
                     <>
-                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
-                        <span className="sr-only">Loading...</span>
+                      <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
+                      <span className="sr-only">Loading...</span>
                     </>
                     }
                 </button>
